@@ -1,0 +1,23 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "TwitchBot";
+}
+
+<form method="post" asp-action="StartBot">
+    <div>
+        <label asp-for="BotUserName"></label>
+        <input asp-for="BotUserName" />
+    </div>
+    <div>
+        <label asp-for="OAuthToken"></label>
+        <input asp-for="OAuthToken" />
+    </div>
+    <div>
+        <label asp-for="ChannelName"></label>
+        <input asp-for="ChannelName" />
+    </div>
+
+    <input type="submit" value="StartBot" class="btn btn-success" />
+</form>

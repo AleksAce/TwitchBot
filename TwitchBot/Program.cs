@@ -2,11 +2,13 @@
 
 namespace TwitchBot
 {
-    class Program
+    public class Bot
     {
-        static void Main(string[] args)
-        {//
-            Console.WriteLine("Hello World!");
+        public Bot()
+        {
+
         }
+        public string Name { get; set; } = "BotName";
     }
+
 }
