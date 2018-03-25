@@ -14,16 +14,12 @@ namespace TwitchBotCore
 {
     public class Program
     {
-        private readonly IBotConfiguration _botConfiguration;
-        public Program(IBotConfiguration botConfiguration)
+        public Program()
         {
-            _botConfiguration = botConfiguration;
         }
         public static void Main(string[] args)
         {
-            
             BuildWebHost(args).Run();
-            
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

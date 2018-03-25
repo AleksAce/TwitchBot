@@ -27,7 +27,7 @@ namespace TwitchBotCore.Pages
                 OAuthToken = _appConfiguration["TwitchConfiguration:OAuthToken"]
             };
             
-           // _bot.Start(botConfiguration);
+            _bot.Start(botConfiguration);
         }
         public ActionResult OnPost()
         {
