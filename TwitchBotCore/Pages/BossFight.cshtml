@@ -1,0 +1,55 @@
+﻿@page
+@model TwitchBotCore.Pages.BossFightModel
+@{
+    Layout = null;
+    ViewData["Title"] = "BossFight";
+}
+<h1>@ViewData["Error"]</h1>
+<style>
+    .bullet-container {
+        position: fixed;
+    }
+
+    .bullet {
+        width: 100px;
+        height: 100px;
+    }
+
+    #the-boss {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: @{@Model.BossWidth}px;
+        height: @{@Model.BossHeight}px;
+    }
+
+    #start-firing {
+        position: fixed;
+        min-width: 100%;
+        min-height: 100%;
+        width: 100%;
+        height: 100%;
+    }
+
+    #catapult {
+        position: fixed;
+        bottom: 0px;
+        left: 10px;
+    }
+    #the-catapult{
+         width: @{@Model.CatapultWidth}px;
+        height: @{@Model.CatapultHeight}px;
+    }
+</style>
+
+<div id="start-firing" onclick="fireOneBullet()">
+</div>
+<div id="catapult">
+    <img id="the-catapult" src="@Model.CatapultImage"   />
+</div>
+<div id="target">
+    <img  id="the-boss" src="@Model.BossImage" />
+</div>
+<script src="~/js/Vector.js"></script>
+<script src="~/js/BossFIght.js"></script>
+

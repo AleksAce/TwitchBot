@@ -1,0 +1,24 @@
+﻿@page
+@model TwitchBotCore.Pages.ConfigureBossFIghtModel
+@{
+    ViewData["Title"] = "ConfigureBossFIght";
+}
+<h1>@ViewData["Error"]</h1>
+<h2>Configure Boss Fight</h2>
+<form method="post" enctype="multipart/form-data">
+    <p>Catapult Image:</p>
+    <input type="file" asp-for="CatapultImgUrl"  />
+   
+    <p>Boss Image:</p>
+    <input type="file" asp-for="BossImgUrl"  />
+    
+    <p>Boss Health:</p>
+    <p style="font-style:italic;">hint: 1 emote = 1 hp </p>
+    <input type="number" asp-for="BossHealth" />
+    <input type="submit" value="Submit" class="btn btn-success" />
+
+
+</form>
+
+
+

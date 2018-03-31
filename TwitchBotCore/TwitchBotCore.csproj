@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\TwitchBotLib\TwitchBotLib.csproj" />
     <ProjectReference Include="..\TwitchBotInfrastructure\TwitchBotInfrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\images\BossFight\" />
+    <Folder Include="wwwroot\images\Test\" />
+  </ItemGroup>
 </Project>
