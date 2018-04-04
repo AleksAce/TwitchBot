@@ -41,15 +41,21 @@
         height: @{@Model.CatapultHeight}px;
     }
 </style>
+<button id="send-emote">Send Emote</button>
+<div id="message-container">
 
+</div>
 <div id="start-firing" onclick="fireOneBullet()">
 </div>
 <div id="catapult">
-    <img id="the-catapult" src="@Model.CatapultImage"   />
+    <img id="the-catapult" src="@Model.CatapultImage" />
 </div>
 <div id="target">
-    <img  id="the-boss" src="@Model.BossImage" />
+    <img id="the-boss" src="@Model.BossImage" />
 </div>
+<!--Jquery needed for signalr -->
+
 <script src="~/js/Vector.js"></script>
+<script src="~/lib/signalr/signalr.js"></script>
 <script src="~/js/BossFIght.js"></script>
 

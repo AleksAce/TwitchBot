@@ -17,7 +17,7 @@ var catapult = function (posX, posY) {
         elementToStartOn.style.bottom = this.pos.Y + "px";
         elementToStartOn.style.left = this.pos.X + "px";
         elementToStartOn.innerHTML = "<img  src='" + catapultImgSrc + "' />";
-    }
+    };
 };
 // var id = setInterval(frame, 5);
 var bullet = function (posX, posY, bulletSpeed) {
@@ -52,15 +52,15 @@ var bullet = function (posX, posY, bulletSpeed) {
         var clearBulletDiv = function (Div) {
             Div.parentNode.removeChild(Div);
 
-        }
+        };
         var clearBullet = function (bullet) {
             bullets.pop(bullet);
 
-        }
+        };
 
-    }
+    };
     //this.checkIntersection = function()
-}
+};
 
 document.onclick = function () {
     fireOneBullet();
@@ -70,19 +70,40 @@ var fireOneBullet = function () {
     var bulletStartPosition = v2(catapultElement.style.left, catapultElement.style.bottom);
     var bullet1 = new bullet(bulletStartPosition.X, bulletStartPosition.Y, 10);
     bullet1.showBullet(catapultElement, bulletImgSrc);
-   
+
     bullets.push(bullet1);
-}
+};
 
 
 var startPage = function () {
+    //SignalR
+    var transport = signalR.TransportType.WebSockets;
+    //the connection
+//TODO: The connection fails.. something's wrong with the version
+    var chatHub = new signalR.HubConnection(`http://${document.location.host}/emotes`, { transport: transport });
+
+    console.log(chatHub);
+    chatHub.on('EmoteMessage', (name, message) => {
+        var divElement = document.createElement('div');
+        liElement.innerHTML = '<strong>' + name + '</strong>:&nbsp;&nbsp;' + message;
+        document.getElementById('message-container').appendChild(divElement);
+    });
+   
+    var button = document.getElementById("send-emote");
+    button.addEventListener("click", event => {
+        chatHub.invoke('EmoteMessage', "Alex", "NewEmote");
+
+    });
+    chatHub.start();
+
+
+    //The Game
     catapultImgSrc = document.getElementById("the-catapult").getAttribute("src");
     bossImgSrc = document.getElementById("the-boss").getAttribute("src");
-   
 
    // bulletImgSrc = document.getElementById("the-catapult").getAttribute("src");
     var catapultMain = new catapult(10, 10);
-    if (catapultMain.isInitiated == true) {
+    if (catapultMain.isInitiated === true) {
 
         catapultMain.showCatapult(catapultElement, catapultImgSrc);
     }
