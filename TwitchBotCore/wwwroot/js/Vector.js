@@ -24,7 +24,7 @@ vec2.prototype.dotProduct = function (v2) {
 
 }
 vec2.prototype.normalize = function () {
-    var magnitude = getMagnitude(this);
+    var magnitude = this.getMagnitude();
     return v2(this.X / magnitude, this.Y / magnitude);
 
 }
@@ -41,3 +41,4 @@ vec2.prototype.getMagnitude = function () {
     return Math.sqrt(this.X * this.X + this.Y * this.Y);
 
 }
+

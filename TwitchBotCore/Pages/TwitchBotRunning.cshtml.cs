@@ -28,7 +28,7 @@ namespace TwitchBotCore.Pages
             };
             if (_bot.isConnected == false)
             {
-                _bot.isConnected = true;
+                _bot.isConnected = true;//start from here: Add randomized bot positions
                 _bot.Start(botConfiguration);
                 
             }

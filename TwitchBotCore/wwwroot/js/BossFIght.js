@@ -34,13 +34,23 @@ var bullet = function (posX, posY, bulletSpeed) {
         bulletDiv.style.left = this.pos.X;
         bulletDiv.innerHTML = "<img class='bullet' src='" + src + "' />";
         elementToStartOn.appendChild(bulletDiv);
+
+        //VELOCITY
+        //Calculate the direction here so we won't stop
         bulletRect = bulletDiv.getBoundingClientRect();
-        monsterOffset = bulletRect.top - monsterRect.top;
-        console.log(monsterOffset);
+        //Randomize this
+        var middleLeftMonsterPos = new vec2(monsterRect.x, monsterRect.y + monsterRect.height / 2);
+
+        // var monsterPos = new vec2(monsterRect.x, monsterRect.y);
+        var bulletPos = new vec2(bulletRect.x, bulletRect.y);
+        var direction = middleLeftMonsterPos.subtract(bulletPos).normalize();
+
         var id = setInterval(function () {
             bulletRect = bulletDiv.getBoundingClientRect();
-            var nextPosition = bulletRect.left + bulletSpeed;
-            bulletDiv.style.left = nextPosition + "px";
+            bulletPos = new vec2(bulletRect.x, bulletRect.y);
+            var nextPosition = new vec2(bulletPos.X + bulletSpeed * direction.X, bulletPos.Y + bulletSpeed * direction.Y);
+            bulletDiv.style.left = nextPosition.X + "px";
+            bulletDiv.style.top = nextPosition.Y + "px";
             if (bulletRect.left >= monsterRect.left) {
                 //inersect
                 //Explode
@@ -65,10 +75,11 @@ var bullet = function (posX, posY, bulletSpeed) {
 document.onclick = function () {
     fireOneBullet(bulletImgSrc);
 };
-
-var fireOneBullet = function (imgSrc) {
-    var bulletStartPosition = v2(catapultElement.style.left, catapultElement.style.bottom);
-    var bullet1 = new bullet(bulletStartPosition.X, bulletStartPosition.Y, 10);
+catapultRect = catapultElement.getBoundingClientRect();
+var fireOneBullet = function (imgSrc, speed) {
+    //right-corner                         
+    var bulletStartPosition = v2(catapultRect.width + catapultRect.x, catapultRect.bottom - catapultRect.top);
+    var bullet1 = new bullet(bulletStartPosition.X, bulletStartPosition.Y, speed);
     bullet1.showBullet(catapultElement, imgSrc);
 
     bullets.push(bullet1);
@@ -89,7 +100,7 @@ var startPage = function () {
 
         catapultMain.showCatapult(catapultElement, catapultImgSrc);
     }
-    var interval = setInterval(getEmotes, 1000);
+    var interval = setInterval(getEmotes, 100);
 
     //Handle emotes
     var emotes = [];
@@ -104,6 +115,7 @@ var startPage = function () {
                     $.each(data, function (i, item) {
                         emotes.push(item);
                     });
+                    speed = emotes.length;
                     
                 }
                 
@@ -115,8 +127,8 @@ var startPage = function () {
     setInterval(fireEmotes, 12);
     function fireEmotes() {
         if (emotes.length > 0) {
-
-            fireOneBullet(emotes[0]);
+            
+            fireOneBullet(emotes[0],2*speed);
             emotes.shift();
         }
     };
