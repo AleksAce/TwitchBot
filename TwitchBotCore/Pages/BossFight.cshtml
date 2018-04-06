@@ -41,7 +41,9 @@
         height: @{@Model.CatapultHeight}px;
     }
 </style>
-<button id="send-emote">Send Emote</button>
+<form method="post">
+    <input type="submit" value="Stop Bot" class="btn btn-danger" />
+</form>
 <div id="message-container">
 
 </div>
@@ -54,8 +56,8 @@
     <img id="the-boss" src="@Model.BossImage" />
 </div>
 <!--Jquery needed for signalr -->
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/Vector.js"></script>
-<script src="~/lib/signalr/signalr.js"></script>
+
 <script src="~/js/BossFIght.js"></script>
 

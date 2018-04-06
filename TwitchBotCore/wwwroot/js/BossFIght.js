@@ -63,40 +63,22 @@ var bullet = function (posX, posY, bulletSpeed) {
 };
 
 document.onclick = function () {
-    fireOneBullet();
+    fireOneBullet(bulletImgSrc);
 };
 
-var fireOneBullet = function () {
+var fireOneBullet = function (imgSrc) {
     var bulletStartPosition = v2(catapultElement.style.left, catapultElement.style.bottom);
     var bullet1 = new bullet(bulletStartPosition.X, bulletStartPosition.Y, 10);
-    bullet1.showBullet(catapultElement, bulletImgSrc);
+    bullet1.showBullet(catapultElement, imgSrc);
 
     bullets.push(bullet1);
 };
 
 
+
 var startPage = function () {
-    //SignalR
-    var transport = signalR.TransportType.WebSockets;
-    //the connection
-//TODO: The connection fails.. something's wrong with the version
-    var chatHub = new signalR.HubConnection(`http://${document.location.host}/emotes`, { transport: transport });
-
-    console.log(chatHub);
-    chatHub.on('EmoteMessage', (name, message) => {
-        var divElement = document.createElement('div');
-        liElement.innerHTML = '<strong>' + name + '</strong>:&nbsp;&nbsp;' + message;
-        document.getElementById('message-container').appendChild(divElement);
-    });
+    
    
-    var button = document.getElementById("send-emote");
-    button.addEventListener("click", event => {
-        chatHub.invoke('EmoteMessage', "Alex", "NewEmote");
-
-    });
-    chatHub.start();
-
-
     //The Game
     catapultImgSrc = document.getElementById("the-catapult").getAttribute("src");
     bossImgSrc = document.getElementById("the-boss").getAttribute("src");
@@ -107,4 +89,36 @@ var startPage = function () {
 
         catapultMain.showCatapult(catapultElement, catapultImgSrc);
     }
+    var interval = setInterval(getEmotes, 1000);
+
+    //Handle emotes
+    var emotes = [];
+
+    function getEmotes() {
+        $.ajax({
+            type: 'GET',
+            url: '/BossFight?handler=Emotes',
+            contentType: "application/json",
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        emotes.push(item);
+                    });
+                    
+                }
+                
+            }
+        });
+    };
+
+    //Fire an emote every 8 ms
+    setInterval(fireEmotes, 12);
+    function fireEmotes() {
+        if (emotes.length > 0) {
+
+            fireOneBullet(emotes[0]);
+            emotes.shift();
+        }
+    };
+  
 }();

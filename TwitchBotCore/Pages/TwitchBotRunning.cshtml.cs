@@ -26,8 +26,14 @@ namespace TwitchBotCore.Pages
                 UserName = _appConfiguration["TwitchConfiguration:BotUserName"],
                 OAuthToken = _appConfiguration["TwitchConfiguration:OAuthToken"]
             };
+            if (_bot.isConnected == false)
+            {
+                _bot.isConnected = true;
+                _bot.Start(botConfiguration);
+                
+            }
             
-            _bot.Start(botConfiguration);
+      
         }
         public ActionResult OnPost()
         {

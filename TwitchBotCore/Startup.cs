@@ -33,6 +33,7 @@ namespace TwitchBotCore
                 options.Conventions.AddPageRoute("/BossFight", "BossFight/{bossHealth?}");
 
 
+
             });
             //IMPORTANT: STILL IN BETA.. WHEN 2.1 is released use that version.
             // This is for learning purposes
@@ -40,7 +41,8 @@ namespace TwitchBotCore
             services.AddSingleton<IBotConfiguration,TwitchBotConfiguration>();
             //Singleton since it's gonna be used throughout the app
             services.AddSingleton<Bot>();
-       
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

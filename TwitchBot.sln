@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBotCore", "TwitchBotC
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{628C3D7A-33AD-4055-A94A-077E12AF25FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBotLib", "..\TwitchBotLib\TwitchBotLib.csproj", "{11BE2914-8099-453F-99DB-764C48C3CB74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBotLib", "..\TwitchBotLib\TwitchBotLib.csproj", "{11BE2914-8099-453F-99DB-764C48C3CB74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBotInfrastructure", "TwitchBotInfrastructure\TwitchBotInfrastructure.csproj", "{35C1AB57-0BCA-4E30-8351-A3237EBCDA08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBotInfrastructure", "TwitchBotInfrastructure\TwitchBotInfrastructure.csproj", "{35C1AB57-0BCA-4E30-8351-A3237EBCDA08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotTest.cs", "..\BotTest.cs\BotTest.cs.csproj", "{455787D6-DBC2-4525-8A60-F472A01BAE48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{35C1AB57-0BCA-4E30-8351-A3237EBCDA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35C1AB57-0BCA-4E30-8351-A3237EBCDA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35C1AB57-0BCA-4E30-8351-A3237EBCDA08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455787D6-DBC2-4525-8A60-F472A01BAE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455787D6-DBC2-4525-8A60-F472A01BAE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455787D6-DBC2-4525-8A60-F472A01BAE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455787D6-DBC2-4525-8A60-F472A01BAE48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
