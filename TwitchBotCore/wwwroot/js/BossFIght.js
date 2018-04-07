@@ -38,7 +38,7 @@ var bullet = function (posX, posY, bulletSpeed) {
         //VELOCITY
         //Calculate the direction here so we won't stop
         bulletRect = bulletDiv.getBoundingClientRect();
-        //Randomize this
+        //TODO:Randomize this and make explosions!
         var middleLeftMonsterPos = new vec2(monsterRect.x, monsterRect.y + monsterRect.height / 2);
 
         // var monsterPos = new vec2(monsterRect.x, monsterRect.y);

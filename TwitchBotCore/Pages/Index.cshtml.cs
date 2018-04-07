@@ -26,6 +26,9 @@ namespace TwitchBotCore.Pages
 
         public void OnGet()
         {
+
+       
+
             BotUserName = _appConfiguration["TwitchConfiguration:BotUserName"];
             OAuthToken = _appConfiguration["TwitchConfiguration:OAuthToken"];
             ChannelName = _appConfiguration["TwitchConfiguration:ChannelName"];
