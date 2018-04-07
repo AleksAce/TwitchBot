@@ -3,6 +3,7 @@ var bodyTag = document.getElementsByTagName('body');
 var firingBody = document.getElementById("start-firing");
 var catapultImgSrc = '/images/Test/Catapult.png';
 var bulletImgSrc = '/images/Test/rocket.jpg';
+var explosionImgSrc = '/images/BossFight/explosion.png';
 
 var catapultElement = document.getElementById("catapult");
 var monsterElement = document.getElementById("the-boss");
@@ -20,6 +21,30 @@ var catapult = function (posX, posY) {
     };
 };
 // var id = setInterval(frame, 5);
+var explode = function (position, elementToStartOn) {
+    var explosionDiv = document.createElement('div');
+    explosionDiv.className = "explosion-container";
+    explosionDiv.style.top = position.Y + "px";
+    explosionDiv.style.left = position.X + "px";
+    explosionDiv.innerHTML = "<img class='explosion' src='" + explosionImgSrc + "' />";
+    elementToStartOn.appendChild(explosionDiv);
+    var timeExploding = 0;
+    var explosionInterval = setInterval(function () {
+        if (timeExploding > 100) {
+            clearExplosionDiv(explosionDiv);
+            clearInterval(explosionInterval);
+            timeExploding = 0;
+        }
+        timeExploding += 40;
+        explosionDiv.firstChild.style.width = timeExploding + 'px';
+        explosionDiv.firstChild.style.height = timeExploding + 'px';
+
+    }, 100);
+    var clearExplosionDiv = function (Div) {
+        Div.parentNode.removeChild(Div);
+
+    };
+}
 var bullet = function (posX, posY, bulletSpeed) {
     this.pos = v2(posX, posY);
     this.isActive = true;
@@ -30,8 +55,8 @@ var bullet = function (posX, posY, bulletSpeed) {
         //   elementToStartOn.
         var bulletDiv = document.createElement('div');
         bulletDiv.className = "bullet-container";
-        bulletDiv.style.bottom = this.pos.Y;
-        bulletDiv.style.left = this.pos.X;
+        bulletDiv.style.bottom = this.pos.Y + 'px';
+        bulletDiv.style.left = this.pos.X + 'px';
         bulletDiv.innerHTML = "<img class='bullet' src='" + src + "' />";
         elementToStartOn.appendChild(bulletDiv);
 
@@ -39,7 +64,8 @@ var bullet = function (posX, posY, bulletSpeed) {
         //Calculate the direction here so we won't stop
         bulletRect = bulletDiv.getBoundingClientRect();
         //TODO:Randomize this and make explosions!
-        var middleLeftMonsterPos = new vec2(monsterRect.x, monsterRect.y + monsterRect.height / 2);
+        var randomPos = Math.floor(Math.random()*monsterRect.height) + 1;
+        var middleLeftMonsterPos = new vec2(monsterRect.x, monsterRect.y + randomPos);
 
         // var monsterPos = new vec2(monsterRect.x, monsterRect.y);
         var bulletPos = new vec2(bulletRect.x, bulletRect.y);
@@ -54,11 +80,18 @@ var bullet = function (posX, posY, bulletSpeed) {
             if (bulletRect.left >= monsterRect.left) {
                 //inersect
                 //Explode
+                bulletRect = bulletDiv.getBoundingClientRect();
+                var explosionPosition = new vec2(bulletRect.left + bulletRect.width/2, bulletRect.top);
+                explode(explosionPosition, elementToStartOn);
+
+
+                //Clear the bullet
                 clearBulletDiv(bulletDiv);
                 clearBullet(this);
                 clearInterval(id);
             }
         }, 10);
+        
         var clearBulletDiv = function (Div) {
             Div.parentNode.removeChild(Div);
 
