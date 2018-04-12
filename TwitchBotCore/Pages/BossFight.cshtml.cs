@@ -41,7 +41,7 @@ namespace TwitchBotCore.Pages
             }
             else
             {
-                BossHealth = null;
+                BossHealth = bossHealth.ToString();
             }
             BossImage ="/images/BossFight/" + _appConfiguration["BossFightConfiguration:BossImage"];
             CatapultImage = "/images/BossFight/"+ _appConfiguration["BossFightConfiguration:CatapultImage"];

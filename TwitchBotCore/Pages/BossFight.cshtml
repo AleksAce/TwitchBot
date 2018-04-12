@@ -18,19 +18,14 @@
         position: fixed;
     }
      .explosion {
+
         width:0px;
         height:0px;
     }
 
 
 
-    #the-boss {
-        position: fixed;
-        bottom: 0px;
-        right: 0px;
-        width: @{@Model.BossWidth}px;
-        height: @{@Model.BossHeight}px;
-    }
+   
 
     #start-firing {
         position: fixed;
@@ -48,7 +43,31 @@
     #the-catapult{
          width: @{@Model.CatapultWidth}px;
         height: @{@Model.CatapultHeight}px;
+       
     }
+
+   #target {
+        position: fixed;
+        bottom: 10px;
+        right: 10px; 
+    }
+    #boss-health-container{
+        padding:10px;
+
+    }
+    #boss-health{
+        height:30px;
+        width:100%;
+        background-color:red;
+        color:seagreen;
+        text-align: center;
+        font-size: 30px;
+    }
+    #the-boss{
+       width: @{@Model.BossWidth}px;
+        height: @{@Model.BossHeight}px;
+    }
+   
 </style>
 <form method="post">
     <input type="submit" value="Stop Bot" class="btn btn-danger" />
@@ -62,10 +81,19 @@
 <div id="catapult">
     <img id="the-catapult" src="@Model.CatapultImage" />
 </div>
-<div id="target">
+
+<div id="target"> 
+    <div id="boss-health-container">
+         <div id="boss-health" data-value="@Model.BossHealth">
+             
+         </div> 
+    </div>  
+   
     <img id="the-boss" src="@Model.BossImage" />
 </div>
-<!--Jquery needed for signalr -->
+
+  
+
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/Vector.js"></script>
 

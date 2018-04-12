@@ -9,6 +9,18 @@ var catapultElement = document.getElementById("catapult");
 var monsterElement = document.getElementById("the-boss");
 var monsterRect = monsterElement.getBoundingClientRect();
 
+var bossHealthElement = document.getElementById("boss-health");
+var bossHealth = bossHealthElement.getAttribute("data-value");
+//Starting width
+var bossHealthElementWidth = bossHealthElement.clientWidth;
+bossHealth = bossHealth*1.0;
+
+//The Ratio between the boss Hp and the element width,
+// so we can multiply by the bullet damage and get the desired damage on the width
+const REALHP_HPELEMENTWIDTH_RATIO = (bossHealthElement.clientWidth/bossHealth)*1.0;
+const BULLET_DAMAGE = 1.0;
+
+
 
 var bullets = [];
 var catapult = function (posX, posY) {
@@ -61,13 +73,12 @@ var bullet = function (posX, posY, bulletSpeed) {
         elementToStartOn.appendChild(bulletDiv);
 
         //VELOCITY
-        //Calculate the direction here so we won't stop
+        //Calculate the direction here so the bullet's are not "following"
         bulletRect = bulletDiv.getBoundingClientRect();
-        //TODO:Randomize this and make explosions!
+
         var randomPos = Math.floor(Math.random()*monsterRect.height) + 1;
         var middleLeftMonsterPos = new vec2(monsterRect.x, monsterRect.y + randomPos);
 
-        // var monsterPos = new vec2(monsterRect.x, monsterRect.y);
         var bulletPos = new vec2(bulletRect.x, bulletRect.y);
         var direction = middleLeftMonsterPos.subtract(bulletPos).normalize();
 
@@ -77,13 +88,28 @@ var bullet = function (posX, posY, bulletSpeed) {
             var nextPosition = new vec2(bulletPos.X + bulletSpeed * direction.X, bulletPos.Y + bulletSpeed * direction.Y);
             bulletDiv.style.left = nextPosition.X + "px";
             bulletDiv.style.top = nextPosition.Y + "px";
+            //rectangles inersect
             if (bulletRect.left >= monsterRect.left) {
-                //inersect
+                
                 //Explode
                 bulletRect = bulletDiv.getBoundingClientRect();
                 var explosionPosition = new vec2(bulletRect.left + bulletRect.width/2, bulletRect.top);
                 explode(explosionPosition, elementToStartOn);
-
+                
+                //Lower boss HP
+                if(bossHealth != null){
+                    bossHealth -= 1;
+                    updateBossHealth(bossHealthElement);
+                    //If boss died
+                    if(bossHealth <= 0){
+                        //kill the boss
+                        document.body.removeChild(document.querySelector("#target"));
+                        //Set this to null so the game wont continue
+                        bossHealth = null;
+                        alert("boss is dead");
+                        
+                    }
+                }
 
                 //Clear the bullet
                 clearBulletDiv(bulletDiv);
@@ -96,6 +122,7 @@ var bullet = function (posX, posY, bulletSpeed) {
             Div.parentNode.removeChild(Div);
 
         };
+        
         var clearBullet = function (bullet) {
             bullets.pop(bullet);
 
@@ -108,7 +135,7 @@ var bullet = function (posX, posY, bulletSpeed) {
 document.onclick = function () {
     fireOneBullet(bulletImgSrc);
 };
-catapultRect = catapultElement.getBoundingClientRect();
+
 var fireOneBullet = function (imgSrc, speed) {
     //right-corner                         
     var bulletStartPosition = v2(catapultRect.width + catapultRect.x, catapultRect.bottom - catapultRect.top);
@@ -117,7 +144,11 @@ var fireOneBullet = function (imgSrc, speed) {
 
     bullets.push(bullet1);
 };
-
+var updateBossHealth = function(HealthElement){
+    bossHealthElementWidth -=REALHP_HPELEMENTWIDTH_RATIO*BULLET_DAMAGE;
+    HealthElement.style.width = bossHealthElementWidth + "px";
+    HealthElement.textContent = bossHealth;
+};
 
 
 var startPage = function () {
@@ -127,8 +158,19 @@ var startPage = function () {
     catapultImgSrc = document.getElementById("the-catapult").getAttribute("src");
     bossImgSrc = document.getElementById("the-boss").getAttribute("src");
 
+    if(bossHealth == 0){
+        //Note: set this to null so we wont have a boss killing.. just fire bullets
+        //Later check if bosshealth is null;
+        bossHealthElement.textContent = "Undefined";
+        bossHealth = null;
+    }
+    else{
+        bossHealthElement.textContent = bossHealth;
+    }
+
    // bulletImgSrc = document.getElementById("the-catapult").getAttribute("src");
     var catapultMain = new catapult(10, 10);
+    catapultRect = catapultElement.getBoundingClientRect();
     if (catapultMain.isInitiated === true) {
 
         catapultMain.showCatapult(catapultElement, catapultImgSrc);
@@ -160,9 +202,11 @@ var startPage = function () {
     setInterval(fireEmotes, 12);
     function fireEmotes() {
         if (emotes.length > 0) {
-            
+            if(bossHealth != null)
+            {
             fireOneBullet(emotes[0],2*speed);
             emotes.shift();
+            }
         }
     };
   
