@@ -39,6 +39,7 @@ namespace TwitchBotCore
             // This is for learning purposes
            
             services.AddSingleton<IBotConfiguration,TwitchBotConfiguration>();
+            services.AddScoped<AddedCommandsRepository>();
             //Singleton since it's gonna be used throughout the app
             services.AddSingleton<Bot>();
 

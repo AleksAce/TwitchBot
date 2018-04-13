@@ -1,0 +1,21 @@
+﻿@page
+@model TwitchBotCore.Pages.CommandsModel
+@{
+    ViewData["Title"] = "Commands";
+}
+
+<h2>Commands</h2>
+<ul>
+ @foreach(var cmd in Model.cmds)
+ {
+     <li>
+         @cmd.Name
+     </li>
+     <li>
+         @cmd.Response
+     </li>
+
+ }
+</ul>
+
+
