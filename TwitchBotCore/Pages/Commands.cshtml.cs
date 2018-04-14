@@ -13,18 +13,14 @@ namespace TwitchBotCore.Pages
     {
         private AddedCommandsRepository _addedCommandsRepo;
         public List<AddedCommand> cmds { get; set; }
+       
+        
         public CommandsModel(AddedCommandsRepository addedCommandsRepo)
         {
             _addedCommandsRepo = addedCommandsRepo;
         }
         public async Task<ActionResult> OnGetAsync()
         {
-            //Test
-            AddedCommand cmd1 = new AddedCommand()
-            {
-                Name = "cmd1",
-                Response = "hellp",
-            };
             try
             {
                 //await repo.AddCommand(cmd1);
@@ -40,5 +36,15 @@ namespace TwitchBotCore.Pages
             // Console.WriteLine(await repo.GetCommandAsync(1.ToString()));
             return RedirectToPage("Error");
         }
+        [HttpPost]
+        public async Task<ActionResult> OnPostAsync(string cmdName)
+        {
+            if(cmdName != null)
+            {
+               await _addedCommandsRepo.RemoveCommandAsync(cmdName);
+            }
+            return RedirectToPage("Commands");
+        }
+        
     }
 }

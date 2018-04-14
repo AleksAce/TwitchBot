@@ -14,8 +14,16 @@
      <li>
          @cmd.Response
      </li>
-
+     <li>
+         
+        <form method="post">
+            <button type="submit" asp-route-cmdname="@cmd.Name">Delete</button>
+       </form> 
+         
+     </li>
  }
+
 </ul>
+<a asp-page="AddCommand" class="btn btn-primary">Add New Command</a>
 
 

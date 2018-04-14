@@ -1,0 +1,21 @@
+﻿@page
+@model TwitchBotCore.Pages.AddCommandModel
+@{
+    ViewData["Title"] = "AddCommand";
+}
+
+<h1>You have to restart the bot for the command to work</h1>
+<form method="post">
+    <div asp-validation-summary="@ValidationSummary.All" class="text-danger"></div>
+    <label asp-for="@Model.CommandToAdd.Name"></label>
+    <input asp-for="@Model.CommandToAdd.Name" />
+
+
+    <label asp-for="@Model.CommandToAdd.Response"></label>
+    <input asp-for="@Model.CommandToAdd.Response" />
+
+
+    <button type="submit">Submit</button>
+</form>
+
+
