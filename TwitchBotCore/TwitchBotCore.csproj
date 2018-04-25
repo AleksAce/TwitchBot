@@ -11,8 +11,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TwitchBotLib\TwitchBotLib.csproj" />
     <ProjectReference Include="..\TwitchBotInfrastructure\TwitchBotInfrastructure.csproj" />
+    <ProjectReference Include="..\TwitchBotLib\TwitchBotLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\images\BossFight\" />
