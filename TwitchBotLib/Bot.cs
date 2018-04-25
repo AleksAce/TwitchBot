@@ -124,6 +124,7 @@ namespace TwitchBotLib
         //Registers commands from the AddedCommands Repo and the "Special" commands registry
         public async Task RegisterCommands()
         {
+            //Added Commands
             _addedCommandsRepository = new AddedCommandsRepository();
             _addedCommands = await _addedCommandsRepository.GetAllAsync();
 
@@ -150,15 +151,16 @@ namespace TwitchBotLib
 
             if (command != null)
             {
-                //Specific for help command
+                //Specific for help command (this is procedural since we don't have much special commands like this one)
                 if (command is HelpCommand)
                 {
                     if (MessageWithoutCommand != null)
                     {
-                        string comandToHelpWith = MessageWithoutCommand.Split(' ')[0];
-                        if (comandToHelpWith[0] == '!')
+                        string commandToHelpWith = MessageWithoutCommand.Split(' ')[0];
+                        if (commandToHelpWith[0] == '!')
                         {
-                            ICommand secondCommand = FindCommand(comandToHelpWith);
+                            commandToHelpWith = GetCommand(commandToHelpWith);
+                            ICommand secondCommand = FindCommand(commandToHelpWith);
                             if (secondCommand != null)
                             {
                                 client.SendMessage(secondCommand.Name + ": " + secondCommand.Description);

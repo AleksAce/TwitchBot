@@ -13,7 +13,7 @@ namespace TwitchBotLib.Commands
         [BsonId] 
         public ObjectId Id { get; set; }
         [BsonElement]
-        public string Name { get; set; }
+        public string Name { get; set; } = "Added Command";
         [BsonElement]
         public string Response { get; set; }
 
