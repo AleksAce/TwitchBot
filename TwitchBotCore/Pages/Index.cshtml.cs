@@ -22,13 +22,14 @@ namespace TwitchBotCore.Pages
         public string OAuthToken { get; set; }
         [BindProperty]
         public string ChannelName { get; set; }
+        public string Error { get; set; } = null;
 
-
-        public void OnGet()
+        public void OnGet(string error)
         {
-
-       
-
+            if (!string.IsNullOrEmpty(error))
+            {
+                ModelState.AddModelError("Credentials", error);
+            }
             BotUserName = _appConfiguration["TwitchConfiguration:BotUserName"];
             OAuthToken = _appConfiguration["TwitchConfiguration:OAuthToken"];
             ChannelName = _appConfiguration["TwitchConfiguration:ChannelName"];
@@ -39,9 +40,7 @@ namespace TwitchBotCore.Pages
             _appConfiguration["TwitchConfiguration:OAuthToken"] = OAuthToken;
             _appConfiguration["TwitchConfiguration:ChannelName"] = ChannelName;
 
-
             return Redirect("/TwitchBotRunning");
         }
-
     }
 }

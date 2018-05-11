@@ -18,7 +18,7 @@ namespace TwitchBotCore.Pages
             _bot = bot;
             _appConfiguration = configuration;
         }
-        public void OnGet()
+        public ActionResult OnGet()
         {
             TwitchBotConfiguration botConfiguration = new TwitchBotConfiguration()
             {
@@ -26,13 +26,23 @@ namespace TwitchBotCore.Pages
                 UserName = _appConfiguration["TwitchConfiguration:BotUserName"],
                 OAuthToken = _appConfiguration["TwitchConfiguration:OAuthToken"]
             };
-            if (_bot.isConnected == false)
+            try
             {
-                _bot.isConnected = true;
-                _bot.Start(botConfiguration);
-                
+
+
+                if (_bot.isConnected == false)
+                {
+                    _bot.isConnected = true;
+                    _bot.Start(botConfiguration).GetAwaiter().GetResult();
+
+                }
             }
-            
+            catch
+            {
+                Console.WriteLine("Could not start bot, check your credentials!");
+                return RedirectToPage("Index", new { error = "Could not start bot, check your credentials!" });
+            }
+            return null;
       
         }
         public ActionResult OnPost()

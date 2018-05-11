@@ -40,38 +40,15 @@ namespace TwitchBotLib
             client = new TwitchClient();
             client.Initialize(credentials, _botConfiguration.Channel);
 
-           // client.OnConnected += onConnected;
-           // client.OnJoinedChannel += onJoinedChannel;
+            client.OnConnected += onConnected;
+            client.OnJoinedChannel += onJoinedChannel;
             client.OnMessageReceived += onMessageRecieved;
-           // client.OnLeftChannel += onLeftChannel;
-           // client.OnDisconnected += onDisconnected;
+            client.OnLeftChannel += onLeftChannel;
+            client.OnDisconnected += onDisconnected;
+
             client.Connect();
             await RegisterCommands();
-
-           
-           
-
-        }
-        
-        public string GetCommand(string chatMessage)
-        {
-            string Result = null;
-            string[] msgs = chatMessage.Substring(1, chatMessage.Length - 1).Split(' ');
-            Result = msgs[0];
-            return Result;
-        }
-        public string GetMessageWithoutCommand(string chatMessage)
-        {
-            string Result = null;
-            string Command = GetCommand(chatMessage);
-            if ((Command.Length + 1) < chatMessage.Length)
-            {
-                Result = chatMessage.Substring(Command.Length + 2);
-            }
-
-            return Result;
-        }
-                
+        }       
         private void onMessageRecieved(object sender, OnMessageReceivedArgs e)
         {
             //NOTE: The twitch API Orders the Emotes automatically if the emotes are the same... Nothing you can do about that...
@@ -145,8 +122,6 @@ namespace TwitchBotLib
             string TheCommand = GetCommand(e.ChatMessage.Message);
             string MessageWithoutCommand = GetMessageWithoutCommand(e.ChatMessage.Message);
 
-
-
             ICommand command = FindCommand(TheCommand);
 
             if (command != null)
@@ -184,12 +159,30 @@ namespace TwitchBotLib
             }
             //Command does not exist
         }
+        public string GetCommand(string chatMessage)
+        {
+            string Result = null;
+            string[] msgs = chatMessage.Substring(1, chatMessage.Length - 1).Split(' ');
+            Result = msgs[0];
+            return Result;
+        }
+        public string GetMessageWithoutCommand(string chatMessage)
+        {
+            string Result = null;
+            string Command = GetCommand(chatMessage);
+            if ((Command.Length + 1) < chatMessage.Length)
+            {
+                Result = chatMessage.Substring(Command.Length + 2);
+            }
+
+            return Result;
+        }
         public ICommand FindCommand(string theCommand)
         {
             //Note: Check the added command DB first then check the command registry
             ICommand Result = null;
             AddedCommand addedCmd = _addedCommands.FirstOrDefault(c => c.Name == theCommand);
-            if(addedCmd != null)
+            if (addedCmd != null)
             {
                 return addedCmd;
             }
