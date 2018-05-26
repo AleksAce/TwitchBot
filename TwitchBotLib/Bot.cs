@@ -101,11 +101,18 @@ namespace TwitchBotLib
         //Registers commands from the AddedCommands Repo and the "Special" commands registry
         public async Task RegisterCommands()
         {
-            //Added Commands
-            _addedCommandsRepository = new AddedCommandsRepository();
-            _addedCommands = await _addedCommandsRepository.GetAllAsync();
-
-            //CommandRegistry
+            try
+            {
+                //Added Commands
+                _addedCommandsRepository = new AddedCommandsRepository();
+                _addedCommands = await _addedCommandsRepository.GetAllAsync();
+            }
+            catch
+            {
+                //Don't process anything if there are no commands from db  
+                Console.WriteLine("Could not fetch commands from databse");
+                return;
+            }
             _CommandRegistry.Clear();
             var commandTypes = GetType().Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(ICommand)));
             foreach (var type in commandTypes)
@@ -118,6 +125,12 @@ namespace TwitchBotLib
         //Processes different types of commands
         public void ProcessCommands(OnMessageReceivedArgs e)
         {
+            //if no commands registered from databse
+            if(_addedCommands == null)
+            {
+                Console.WriteLine("Registered commands not found");
+                return;
+            }
             //GetCommand Words
             string TheCommand = GetCommand(e.ChatMessage.Message);
             string MessageWithoutCommand = GetMessageWithoutCommand(e.ChatMessage.Message);

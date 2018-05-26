@@ -32,8 +32,9 @@ namespace TwitchBotCore.Pages
 
                 if (_bot.isConnected == false)
                 {
-                    _bot.isConnected = true;
+               
                     _bot.Start(botConfiguration).GetAwaiter().GetResult();
+                    _bot.isConnected = true;
 
                 }
             }
@@ -42,7 +43,7 @@ namespace TwitchBotCore.Pages
                 Console.WriteLine("Could not start bot, check your credentials!");
                 return RedirectToPage("Index", new { error = "Could not start bot, check your credentials!" });
             }
-            return null;
+            return Page();
       
         }
         public ActionResult OnPost()
