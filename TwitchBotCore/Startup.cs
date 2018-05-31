@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TwitchBotInfrastructure;
@@ -28,22 +29,21 @@ namespace TwitchBotCore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddRazorPagesOptions(options=> {
+            services.AddMvc()
+               // .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(options=> {
               
                 options.Conventions.AddPageRoute("/BossFight", "BossFight/{bossHealth?}");
 
-
-
             });
-            //IMPORTANT: STILL IN BETA.. WHEN 2.1 is released use that version.
-            // This is for learning purposes
-           
+
+            
+            
+
             services.AddSingleton<IBotConfiguration,TwitchBotConfiguration>();
-            services.AddScoped<AddedCommandsRepository>();
-            //Singleton since it's gonna be used throughout the app
+            services.AddTransient<AddedCommandsRepository>();
             services.AddSingleton<Bot>();
-
-
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +51,7 @@ namespace TwitchBotCore
         {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
+              
                 app.UseDeveloperExceptionPage();
             }
             else
