@@ -19,7 +19,7 @@ namespace TwitchBotCore.Pages
             _appConfiguration = configuration;
         }
         [BindProperty]
-        public IFormFile BossImgUrl { get; set; } 
+        public IFormFile BossImgUrl { get; set; }
         [BindProperty]
         public IFormFile CatapultImgUrl { get; set; }
         [BindProperty]
@@ -31,29 +31,42 @@ namespace TwitchBotCore.Pages
         }
         public async Task<ActionResult> OnPostAsync()
         {
-          //Check if it's valid
-            string CatapultImageName = CatapultImgUrl.FileName;
-            string BossImageName = BossImgUrl.FileName;
-            if (!CatapultImageName.Contains(".png") || !BossImageName.Contains(".png"))
+            //Check if it's valid
+            try 
+            { 
+            string CatapultImageName = Path.Combine(ImagesServerPath, "catapult.png");
+            if (CatapultImgUrl != null)
             {
-                ViewData["Error"] = "Please submit a valid png";
-                return Page();
-            }
-            try
-            {
-                //Catapult
-                string CatapultDestPath = Path.Combine(ImagesServerPath, "catapult.png");
+                CatapultImageName = CatapultImgUrl.FileName;
+                if(!CatapultImageName.Contains(".png"))
+                {
+                    ViewData["Error"] = "Please submit a valid catapult png";
+                    return Page();
+                }
+                    //Catapult
+                string CatapultDestPath = CatapultImageName;
                 using (var catapultStream = new FileStream(CatapultDestPath, FileMode.Create))
                 {
                     await CatapultImgUrl.CopyToAsync(catapultStream);
                 }
-                //Boss
-                string BossDestPath = Path.Combine(ImagesServerPath, "boss.png");
+            }
+
+            string BossImageName = Path.Combine(ImagesServerPath, "boss.png");
+            if (BossImgUrl != null)
+            {
+                BossImageName = BossImgUrl.FileName;
+                if(!BossImageName.Contains(".png"))
+                {
+                        ViewData["Error"] = "Please submit a valid boss png";
+                        return Page();
+                }
+                string BossDestPath = BossImageName;
                 using (var bossStream = new FileStream(BossDestPath, FileMode.Create))
                 {
                     await BossImgUrl.CopyToAsync(bossStream);
                 }
 
+            }
             }
             catch
             {

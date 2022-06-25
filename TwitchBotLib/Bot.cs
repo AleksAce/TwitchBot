@@ -16,7 +16,7 @@ namespace TwitchBotLib
         List<AddedCommand> _addedCommands;
         public Bot()
         {
-          
+            bossFightGame = new BossFightGame();
         }
 
         public BossFightGame bossFightGame;
